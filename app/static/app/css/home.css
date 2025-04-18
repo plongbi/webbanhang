@@ -1,0 +1,208 @@
+/* =======================
+   PHẦN GỢI Ý HÔM NAY
+======================= */
+.suggest-title-container {
+  background-color: #f7f7f7;
+}
+
+.suggest-title {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 600;
+  color: #e74c3c;
+  text-transform: uppercase;
+  border-bottom: 3px solid #e74c3c;
+  padding-bottom: 5px;
+  margin-top: 10px;
+}
+
+.suggest-divider {
+  width: 60px;
+  height: 3px;
+  background-color: #e74c3c;
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+
+/* =======================
+   DANH SÁCH SẢN PHẨM
+======================= */
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px;
+}
+
+.product-card {
+  width: 100%;
+  max-width: 200px;
+  background-color: #fff;
+  border: 1px solid #f2f2f2;
+  border-radius: 12px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.product-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.product-card .product-image-wrapper {
+  position: relative;
+  padding-top: 100%;
+  background-color: #fff;
+}
+
+.product-card img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.product-card .product-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 8px;
+  min-height: 130px;
+}
+
+.product-card .product-name {
+  font-size: 14px;
+  line-height: 1.3em;
+  height: 2.6em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-card .product-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  margin-top: auto;
+}
+
+.product-card .product-meta .price {
+  color: #e74c3c;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.product-card .product-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+/* =======================
+  FLASH SALE
+======================= */
+
+.flash-sale {
+  background-color: #fefefe;
+}
+
+.flash-sale-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.flash-sale-header h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #e74c3c;
+}
+
+#flash-sale-timer {
+  background-color: #222;
+  color: #fff;
+  padding: 4px 10px;
+  font-size: 16px;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+
+.view-all {
+  font-size: 14px;
+  color: #e74c3c;
+  text-decoration: none;
+}
+
+.flash-sale-products {
+  display: flex;
+  justify-content: center; /* Căn giữa các sản phẩm */
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  flex-wrap: wrap; /* Cho phép các sản phẩm xuống dòng nếu không đủ không gian */
+}
+
+.flash-sale-card {
+  flex: 0 0 auto;
+  width: 160px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: transform 0.2s;
+  text-align: center; /* Căn giữa nội dung trong mỗi sản phẩm */
+  position: relative;
+}
+
+.flash-sale-card:hover {
+  transform: translateY(-3px);
+}
+
+.flash-sale-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.flash-sale-info {
+  padding: 10px;
+}
+
+.flash-sale-info .price {
+  color: #e74c3c;
+  font-weight: bold;
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+.flash-sale-label {
+  background: linear-gradient(to right, #ff6e00, #ff9d00);
+  color: white;
+  padding: 3px 6px;
+  border-radius: 20px;
+  font-size: 12px;
+  display: inline-block;
+}
+
+.discount-label {
+  position: absolute;
+  top: 5px;  /* Đặt phần trăm gần góc trên bên phải */
+  right: 5px;  /* Đặt nó ở góc phải */
+  background-color: #ff5722;  /* Màu nền đỏ của phần trăm giảm giá */
+  color: white;  /* Chữ màu trắng để nổi bật trên nền đỏ */
+  font-size: 14px;  /* Kích thước chữ vừa phải */
+  font-weight: bold;  /* Chữ đậm */
+  padding: 3px 8px;  /* Khoảng cách xung quanh chữ */
+  border-radius: 12px;  /* Tạo viền bo tròn */
+  z-index: 10;  /* Đảm bảo nó nằm trên ảnh */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  /* Tạo hiệu ứng bóng cho huy hiệu */
+}
