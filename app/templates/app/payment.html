@@ -1,0 +1,172 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'app/css/payment.css' %}">
+{% endblock extra_css %}
+{% block payment %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <!-- Thông tin xác nhận địa chỉ -->
+            {% if checkout_data %}
+            <div class="box-element">
+                <h4>Xác nhận thông tin đặt hàng:</h4>
+                <p><strong>Họ tên:</strong> {{ checkout_data.name }}</p>
+                <p><strong>Email:</strong> {{ checkout_data.email }}</p>
+                <p><strong>Địa chỉ:</strong> {{ checkout_data.address }}</p>
+                <p><strong>Số điện thoại:</strong> {{ checkout_data.number }}</p>
+            </div>
+            {% endif %}
+            <!-- Thông tin đơn hàng -->
+            <div class="card my-4 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Thông Tin Đơn Hàng</h5>
+                </div>
+                <div class="card-body">
+                    {% if items %}
+                        <div class="table-responsive">
+                            <table class="table table-bordered align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col">Ảnh</th>
+                                        <th scope="col">Sản phẩm</th>
+                                        <th scope="col">Số lượng</th>
+                                        <th scope="col">Giá</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in items %}
+                                    <tr>
+                                        <td style="width: 100px;">
+                                            <img src="{{ item.product.ImageURL }}" class="img-fluid rounded" alt="Ảnh sản phẩm">
+                                        </td>
+                                        <td>{{ item.product.name }}</td>
+                                        <td>{{ item.quantity }}</td>
+                                        <td>{{ item.product.price|intcomma }} VND</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            <h6><strong>Tổng số sản phẩm:</strong> {{ order.get_cart_items }}</h6>
+                            <h6><strong>Tổng thanh toán:</strong> {{ order.get_cart_total|intcomma }} VND</h6>
+                        </div>
+                    {% else %}
+                        <p>Không có sản phẩm nào trong đơn hàng.</p>
+                    {% endif %}
+                </div>
+            </div>
+            <!-- Chọn phương thức thanh toán -->
+            {% comment %} <div class="card">
+                <div class="card-header bg-dark text-white">Chọn Phương Thức Thanh Toán</div>
+                <div class="card-body">
+                    <form method="post" action="{% url 'payment' %}">
+                        {% csrf_token %}
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="payment_method" id="cod" value="COD" checked>
+                            <label class="form-check-label" for="cod">
+                                Thanh toán khi nhận hàng (COD)
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="payment_method" id="bank" value="Bank">
+                            <label class="form-check-label" for="bank">
+                                Chuyển khoản ngân hàng
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="payment_method" id="paypal" value="PayPal">
+                            <label class="form-check-label" for="paypal">
+                                Thanh toán qua PayPal
+                            </label>
+                        </div>
+
+                        <button type="submit" class="btn btn-success mt-4 ">Xác nhận thanh toán</button>
+                    </form>
+                </div>
+            </div> {% endcomment %}
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-3">Phương thức thanh toán</h5>
+            
+                <form method="post" action="{% url 'payment' %}">
+                    {% csrf_token %}
+                    <div class="payment-methods">
+                        <!-- COD -->
+                        <div class="form-check payment-method-item mb-3 p-0 border-0">
+                            <input class="form-check-input visually-hidden" type="radio" name="payment_method" id="payment_cod" value="COD" checked>
+                            <label class="form-check-label w-100" for="payment_cod">
+                                <div class="payment-card p-3 border rounded-3 d-flex align-items-center">
+                                    <div class="payment-icon me-3">
+                                        <i class="fas fa-money-bill-wave text-success fs-4"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="fw-medium">Thanh toán khi nhận hàng (COD)</div>
+                                        <p class="mb-0 small text-muted">Thanh toán bằng tiền mặt khi nhận hàng</p>
+                                    </div>
+                                    <div class="payment-radio ms-3">
+                                        <div class="radio-circle"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                
+                        <!-- Banking -->
+                        <div class="form-check payment-method-item mb-3 p-0 border-0">
+                            <input class="form-check-input visually-hidden" type="radio" name="payment_method" id="payment_banking" value="Banking">
+                            <label class="form-check-label w-100" for="payment_banking">
+                                <div class="payment-card p-3 border rounded-3 d-flex align-items-center">
+                                    <div class="payment-icon me-3">
+                                        <i class="fas fa-university text-primary fs-4"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="fw-medium">Chuyển khoản ngân hàng</div>
+                                        <p class="mb-0 small text-muted">Thanh toán online qua ngân hàng</p>
+                                    </div>
+                                    <div class="payment-radio ms-3">
+                                        <div class="radio-circle"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                
+                        <!-- Momo -->
+                        <div class="form-check payment-method-item p-0 border-0">
+                            <input class="form-check-input visually-hidden" type="radio" name="payment_method" id="payment_momo" value="MoMo">
+                            <label class="form-check-label w-100" for="payment_momo">
+                                <div class="payment-card p-3 border rounded-3 d-flex align-items-center">
+                                    <div class="payment-icon me-3">
+                                        <i class="fas fa-wallet text-danger fs-4"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="fw-medium">Ví điện tử MoMo</div>
+                                        <p class="mb-0 small text-muted">Thanh toán qua ví MoMo</p>
+                                    </div>
+                                    <div class="payment-radio ms-3">
+                                        <div class="radio-circle"></div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                
+                    <!-- Submit -->
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn btn-success">Xác nhận thanh toán</button>
+                    </div>
+                </form>
+                
+            </div>
+                        
+        </div>
+    </div>
+</div>
+{% if message %}
+<div class="alert alert-success mt-4 text-center" style="font-size: 1.2rem;">
+{{ message }}
+</div>
+{% endif %}
+{% endblock payment %}

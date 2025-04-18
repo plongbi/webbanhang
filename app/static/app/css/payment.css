@@ -1,0 +1,94 @@
+.payment-methods {
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.payment-methods h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.payment-method-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.payment-method-item:hover {
+    border-color: #4f46e5;
+    background-color: #f8f8ff;
+}
+
+.payment-method-item.active {
+    border-color: #4f46e5;
+    background-color: #f8f8ff;
+}
+
+.payment-method-item .icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.payment-method-item .icon img {
+    max-width: 100%;
+    height: auto;
+}
+
+.payment-method-item .content {
+    flex: 1;
+}
+
+.payment-method-item .title {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.payment-method-item .description {
+    font-size: 0.875rem;
+    color: #666;
+    margin: 0;
+}
+
+.payment-method-item .radio-input {
+    width: 20px;
+    height: 20px;
+    margin-left: 12px;
+    accent-color: #4f46e5;
+} 
+
+.payment-method-item input:checked + label .payment-card {
+    font-weight: bold;
+    border: 2px solid #28a745;
+    box-shadow: 0 0 10px rgba(40, 167, 69, 0.3);
+}
+
+.payment-method-item input {
+    display: none; /* Ẩn radio button */
+}
+
+.payment-method-item input:checked + label {
+    background-color: #f8f9fa; /* Tạo nền cho label khi chọn */
+}
+
+.payment-card {
+    transition: all 0.3s ease; /* Hiệu ứng chuyển động */
+}
+
+/* Để tạo hiệu ứng hover */
+.payment-method-item label:hover .payment-card {
+    border: 2px solid #007bff;
+}

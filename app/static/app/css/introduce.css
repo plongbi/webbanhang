@@ -1,0 +1,13 @@
+h1, h2, h3 {
+    color: #ff5722;
+  }
+  
+  img {
+    max-height: 350px;
+    object-fit: cover;
+  }
+  
+  section {
+    margin-bottom: 60px;
+  }
+  

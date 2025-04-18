@@ -1,0 +1,180 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'app/css/detail.css' %}">
+<link rel="stylesheet" href="{% static 'app/css/style2.css' %}">
+{% endblock extra_css %}
+{% block detail %}
+<section class="product-detail">
+<div class="container">
+  {% for product in products %}
+  <div class="card shadow-lg mb-5 border-0 rounded-4">
+    <div class="row g-0">
+      <section class="product-detail py-5">
+        <div class="container">
+          <div class="row align-items-start g-5">
+            <!--Ảnh sản phẩm-->
+            <div class="col-md-6">
+              <div class="product-images text-center">
+                <!--Ảnh chính-->
+                <div class="main-image mb-3">
+                  <img src="{{ product.ImageURL }}" alt="{{ product.name }}" id="main-image" class="img-fluid rounded" style="max-height: 300px; object-fit: contain;">
+                </div>
+                <!--Ảnh phụ-->
+                <div class="thumbnail-list d-flex justify-content-center gap-2 flex-wrap">
+                  <div class="thumbnail p-1" data-image="{{ product.media1.url }}">
+                    <img src="{{ product.media1.url }}" alt="Thumbnail 1" class="img-thumbnail" style="width: 70px; height: 70px; object-fit: cover;">
+                  </div>
+                  <div class="thumbnail p-1" data-image="{{ product.media2.url }}">
+                    <img src="{{ product.media2.url }}" alt="Thumbnail 2" class="img-thumbnail" style="width: 70px; height: 70px; object-fit: cover;">
+                  </div>
+                  <div class="thumbnail p-1" data-image="{{ product.media3.url }}">
+                    <img src="{{ product.media3.url }}" alt="Thumbnail 3" class="img-thumbnail" style="width: 70px; height: 70px; object-fit: cover;">
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+            
+            <div class="col-md-6 d-flex flex-column justify-content-between">
+              <div>
+                <div class="d-flex gap-3 mb-3">
+                  <a href="{% url 'home' %}" class="btn btn-outline-secondary">&larr; Quay lại</a>
+                  <a href="{% url 'cart' %}" class="btn btn-outline-dark">
+                    <i class="fa fa-shopping-cart"></i>
+                  </a>
+                </div>
+      
+                <h4 class="text-uppercase fw-bold mb-3">{{ product.name }}</h4>
+      
+                <div class="product-rating mb-2">
+                  <div class="stars text-warning">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                  </div>
+                  <small class="text-muted">(100+ đánh giá) • Đã bán 1000+</small>
+                </div>
+      
+                <div class="product-price mb-3">
+                  <div class="current-price fs-4 text-danger fw-bold">{{ product.price|intcomma }}đ</div>
+                </div>
+              </div>
+      
+              <div class="product-quantity mb-3">
+                <label class="form-label fw-semibold">Số lượng</label>
+                <div class="quantity-control d-flex align-items-left gap-2">
+                  <button class="quantity-btn minus btn btn-outline-secondary px-3">-</button>
+                  <input type="number" class="form-control text-center" value="1" min="1" max="10" style="width: 60px;">
+                  <button class="quantity-btn plus btn btn-outline-secondary px-3">+</button>
+                </div>
+              </div>
+      
+              <div class="d-flex gap-2">
+                <button data-product="{{ product.id }}" data-action="add" class="btn btn-danger update-cart px-4 py-2 text-uppercase fw-bold">
+                  Thêm vào giỏ
+                </button>
+                <button class="btn btn-outline-secondary px-3"><i class="fa fa-heart"></i></button>
+                <button class="btn btn-outline-secondary px-3"><i class="fa fa-share-alt"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+    </div>
+    
+  </div>
+  <!--Thông tin sản phẩm-->
+  <div class="product-description">
+    <h2>Mô tả sản phẩm</h2>
+    <div class="description-content">
+        <p>{{product.description}}</p>
+        <h3>Thông tin</h3>
+        <ul>
+          {% for line in product.detail.splitlines %}
+          <li class="d-flex align-items-start mb-2">
+            <span class="text-muted">{{ line|safe }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<!-- Sản phẩm liên quan -->
+<div class="container">
+  <div class="related-products">
+    <h2>Sản phẩm liên quan</h2>
+    <div class="product-grid">
+      {% for p in related_products %}
+        <a href="{% url 'detail' p.id %}" class="product-card">
+          <div class="product-image">
+            <img src="{{ p.image.url }}" alt="{{ p.name }}">
+          </div>
+          <div class="product-info">
+            <h3 class="product-name">{{ p.name }}</h3>
+            <div class="product-price">
+              <span class="current-price">{{ p.price|intcomma }}đ</span>
+            </div>
+            <div class="product-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <span class="rating-count">(100+)</span>
+            </div>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Điều khiển số lượng
+    const minusBtn = document.querySelector('.quantity-btn.minus');
+    const plusBtn = document.querySelector('.quantity-btn.plus');
+    const inputField = document.querySelector('.quantity-control input');
+  
+    plusBtn.addEventListener('click', function () {
+      let current = parseInt(inputField.value);
+      const max = parseInt(inputField.getAttribute('max'));
+      if (current < max) {
+        inputField.value = current + 1;
+      }
+    });
+  
+    minusBtn.addEventListener('click', function () {
+      let current = parseInt(inputField.value);
+      const min = parseInt(inputField.getAttribute('min'));
+      if (current > min) {
+        inputField.value = current - 1;
+      }
+    });
+  
+    // Thay đổi hình ảnh chính khi trỏ chuột vào thumbnail
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    const mainImage = document.querySelector('#main-image');
+  
+    // Lưu ảnh chính ban đầu để phục hồi khi cần
+    const originalMainImageSrc = mainImage.src;
+  
+    thumbnails.forEach(function (thumbnail) {
+      thumbnail.addEventListener('mouseover', function () {
+        const newImageSrc = thumbnail.getAttribute('data-image');
+        mainImage.src = newImageSrc;
+      });
+  
+      thumbnail.addEventListener('mouseout', function () {
+        mainImage.src = originalMainImageSrc; // Khôi phục ảnh chính ban đầu
+      });
+    });
+  });
+</script>
+{% endblock detail %}

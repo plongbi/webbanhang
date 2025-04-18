@@ -1,0 +1,94 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'app/css/cart.css' %}?v=2">
+{% endblock extra_css %}
+{% block cart_content %}
+<div class="row"  style = 'width:100%'>
+	<div class="col-lg-12">
+		<div class="box-element">
+			
+			<div class="container mt-4 text-left">
+				<a class="btn btn-outline-dark" href="{% url 'home' %}">&#x2190; Tiếp tục mua hàng</a>
+			  </div>
+
+			<br>
+			<br>
+			<table class="table">
+				<tr class = text-end>
+					<th><h5>Tổng sản phẩm: <strong>{{order.get_cart_items}}</strong></h5></th>
+					<th><h5>Tổng: <strong>{{order.get_cart_total|intcomma}} VND</strong></h5></th>
+					<th>
+						<a  style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout' %}">Thanh toán</a>
+					</th>
+				</tr>
+			</table>
+
+		</div>
+
+		<br>
+		  <div class="box-element">
+			<!-- Header hàng -->
+			<div class="cart-header">
+			  <div class="cart-col image"></div>
+			  <div class="cart-col name">Sản phẩm</div>
+			  <div class="cart-col">Giá</div>
+			  <div class="cart-col">Số lượng</div>
+			  <div class="cart-col">Tổng</div>
+			</div>
+		  
+			<!-- Duyệt sản phẩm trong giỏ -->
+			{% for item in items %}
+			<div class="cart-item">
+			  <div class="cart-col image">
+				<img src="{{ item.product.ImageURL }}" alt="{{ item.product.name }}">
+			  </div>
+			  <div class="cart-col name">
+				<p>{{ item.product.name }}</p>
+			  </div>
+			  <div class="cart-col">
+				<p>{{ item.product.price|intcomma }} VND</p>
+			  </div>
+			  <div class="cart-col">
+				<div class="d-flex justify-content-center align-items-center gap-2">
+				  <button class="btn btn-outline-dark btn-sm update-cart cart-qty-btn" data-product="{{ item.product.id }}" data-action="remove">-</button>
+				  <span>{{ item.quantity }}</span>
+				  <button class="btn btn-outline-dark btn-sm update-cart cart-qty-btn" data-product="{{ item.product.id }}" data-action="add">+</button>
+				</div>
+			  </div>
+			  <div class="cart-col">
+				<p>{{ item.get_total|intcomma }} VND</p>
+			  </div>
+			</div>
+			{% endfor %}
+		  </div>
+		  
+	</div>
+</div>
+{% endblock cart_content %}
+<script>
+	let updateBtns = document.getElementsByClassName('update-cart');
+  
+	for (let i = 0; i < updateBtns.length; i++) {
+	  updateBtns[i].addEventListener('click', function () {
+		let productId = this.dataset.product;
+		let action = this.dataset.action;
+		console.log('Cart click:', productId, action);
+  
+		fetch('/update_item/', {
+		  method: 'POST',
+		  headers: {
+			'Content-Type': 'application/json',
+			'X-CSRFToken': '{{ csrf_token }}',
+		  },
+		  body: JSON.stringify({ productId: productId, action: action }),
+		})
+		  .then((response) => response.json())
+		  .then((data) => {
+			console.log('Success:', data);
+			location.reload();  // Reload lại giỏ hàng
+		  });
+	  });
+	}
+  </script>

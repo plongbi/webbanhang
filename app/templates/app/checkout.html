@@ -1,0 +1,63 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content_checkout %}
+<div class="container my-4">
+  <div class="row">
+    <!-- Form Thông tin mua sắm -->
+    <div class="col-lg-6 mb-4">
+      <div class="box-element" id="form-wrapper">
+        <form method="POST" action="{% url 'checkout' %}">
+          {% csrf_token %}
+          <div id="shopping-info">
+            <h5>Thông tin cá nhân</h5>
+            <hr>
+            <input class="form-control mb-2" type="text" name="name" placeholder="Họ tên">
+            <input class="form-control mb-2" type="text" name="email" placeholder="Email">
+            <input class="form-control mb-2" type="text" name="address" placeholder="Địa chỉ">
+            <input class="form-control mb-2" type="text" name="number" placeholder="Số điện thoại">
+          </div>
+          <hr>
+		  {% if messages %}
+			<div class="alert alert-danger">
+			{% for message in messages %}
+			<p>{{ message }}</p>
+			{% endfor %}
+			</div>
+		{% endif %}
+          <input id="form-button" class="btn btn-success w-100" type="submit" value="Tiếp tục">
+        </form>
+      </div>
+    </div>
+
+    <!-- Đơn hàng -->
+    <div class="col-lg-6">
+      <div class="box-element">
+        <a class="btn btn-outline-dark mb-3" href="{% url 'cart' %}">&#x2190; Quay lại giỏ hàng</a>
+        <h5>Đơn hàng</h5>
+        <hr>
+
+        {% for item in items %}
+        <div class="cart-row d-flex align-items-center mb-3">
+          <div class="me-3">
+            <img class="img-thumbnail" src="{{ item.product.ImageURL }}" alt="{{ item.product.name }}" style="width: 80px; height: auto;">
+          </div>
+          <div class="flex-grow-1">
+            <strong>{{ item.product.name }}</strong><br>
+            <small>Giá: {{ item.product.price|intcomma }} VND</small><br>
+            <small>Số lượng: {{ item.quantity }}</small>
+          </div>
+        </div>
+        {% endfor %}
+
+        <!-- Tổng đơn hàng -->
+        <div class="text-end mt-4">
+          <h5>Sản phẩm: <strong>{{ order.get_cart_items }}</strong></h5>
+          <h5>Tổng: <strong>{{ order.get_cart_total|intcomma }} VND</strong></h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content_checkout %}

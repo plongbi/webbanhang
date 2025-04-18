@@ -1,0 +1,50 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'app/css/introduce.css' %}">
+{% endblock extra_css %}
+
+{% block introduce %}
+<div class="container py-5">
+  <!-- Hero Section -->
+  <section class="text-center mb-5">
+    <h1 class="fw-bold display-5">Về chúng tôi</h1>
+    <p class="lead text-muted">PTIT Shop - Đổi mới và phục vụ với đam mê</p>
+    <img src="{% static 'app/images/PTIT shop .png' %}" alt="PTIT Shop Banner" class="img-fluid rounded shadow mt-4">
+  </section>
+
+  <!-- Our Mission -->
+  <section class="mb-5">
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <h2 class="fw-bold mb-3">Sứ mệnh của chúng tôi</h2>
+        <p class="text-muted">PTIT Shop cam kết mang đến trải nghiệm mua sắm trực tuyến đơn giản, an toàn và tiện lợi. Chúng tôi tin rằng mỗi khách hàng đều xứng đáng với sự phục vụ tận tâm và những sản phẩm chất lượng nhất.</p>
+      </div>
+      <div class="col-md-6 text-center">
+        <img src="{% static 'app/images/mission.jpg' %}" alt="Mission" class="img-fluid rounded shadow">
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Culture -->
+  <section class="mb-5 bg-light p-4 rounded">
+    <div class="row align-items-center">
+      <div class="col-md-6 text-center order-md-2">
+        <img src="{% static 'app/images/culture.jpg' %}" alt="Culture" class="img-fluid rounded shadow">
+      </div>
+      <div class="col-md-6 order-md-1">
+        <h2 class="fw-bold mb-3">Văn hóa tại PTIT Shop</h2>
+        <p class="text-muted">Chúng tôi đề cao sự sáng tạo, tốc độ và tinh thần đồng đội. Mỗi thành viên đều đóng vai trò quan trọng trong việc phát triển hệ thống và cải tiến trải nghiệm người dùng mỗi ngày.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action -->
+  <section class="text-center mt-5">
+    <h3 class="fw-bold">Tham gia cùng chúng tôi!</h3>
+    <p class="text-muted">PTIT Shop luôn chào đón những cá nhân năng động, sáng tạo và có đam mê trong lĩnh vực thương mại điện tử.</p>
+    <a href="{% url 'register' %}" class="btn btn-primary px-4 py-2 mt-3">Đăng ký ngay</a>
+  </section>
+</div>
+{% endblock introduce %}
